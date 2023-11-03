@@ -30,6 +30,6 @@ pub fn combat(
                 }
                 println!("Health after attack: {}", health.current);
             }
-            commands.remove(*message)
-        }
+            commands.remove(*message);
+        });
 }

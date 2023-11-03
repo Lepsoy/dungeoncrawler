@@ -27,7 +27,7 @@ pub fn player_input(
              .unwrap();
 
         let mut enemies = <(Entity, &Point)>::query().filter(component::<Enemy>());
-        if delta.x != 0 || delta.y != {
+        if delta.x != 0 || delta.y != 0 {
             let mut hit_something = false;
             enemies
                 .iter(ecs)
