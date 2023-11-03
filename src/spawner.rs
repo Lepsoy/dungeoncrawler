@@ -11,6 +11,7 @@ pub fn spawn_player(ecs: &mut World, pos: Point) {
         Health {
             current: 20,
             max: 20,
+            inactivity: 0,
         },
     ));
 }
@@ -43,7 +44,11 @@ pub fn spawn_monster(
                 glyph,
             },
             MovingRandomly{},
-            Health{current: hp, max: hp},
+            Health{
+                current: hp,
+                max: hp,
+                inactivity: 0
+            },
             Name(name),
         )
     );

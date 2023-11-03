@@ -59,14 +59,17 @@ pub fn player_input(
         }
 
         if !did_something {
-            println!("Got here");
             if let Ok(mut health) = ecs
                 .entry_mut(player_entity)
                 .unwrap()
                 .get_component_mut::<Health>()
             {
-                println!("Should be healing now");
-                health.current = i32::min(health.max, health.current + 1);
+                if health.inactivity < 5 {
+                    health.inactivity += 1;
+                } else {
+                    health.current = i32::min(health.max, health.current + 1);
+                    health.inactivity = 0;
+                }
             }
         }
         *turn_state = TurnState::PlayerTurn;
