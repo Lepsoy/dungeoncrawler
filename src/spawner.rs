@@ -43,7 +43,7 @@ pub fn spawn_monster(
                 color: ColorPair::new(WHITE, BLACK),
                 glyph,
             },
-            MovingRandomly{},
+            ChasingPlayer{},
             Health{
                 current: hp,
                 max: hp,
