@@ -24,45 +24,38 @@ fn orc() -> (i32, String, FontCharType) {
     (2, "Orc".to_string(), to_cp437('o'))
 }
 
-pub fn spawn_monster(
-    ecs: &mut World,
-    rng: &mut RandomNumberGenerator,
-    pos: Point,
-)
-{
+pub fn spawn_monster(ecs: &mut World, rng: &mut RandomNumberGenerator, pos: Point) {
     let (hp, name, glyph) = match rng.roll_dice(1, 10) {
         1..=8 => goblin(),
         _ => orc(),
     };
 
-    ecs.push(
-        (
-            Enemy,
-            pos,
-            Render{
-                color: ColorPair::new(WHITE, BLACK),
-                glyph,
-            },
-            ChasingPlayer{},
-            Health{
-                current: hp,
-                max: hp,
-                inactivity: 0
-            },
-            Name(name),
-        )
-    );
+    ecs.push((
+        Enemy,
+        pos,
+        Render {
+            color: ColorPair::new(WHITE, BLACK),
+            glyph,
+        },
+        ChasingPlayer {},
+        Health {
+            current: hp,
+            max: hp,
+            inactivity: 0,
+        },
+        Name(name),
+    ));
 }
 
 pub fn spawn_amulet_of_ripd(ecs: &mut World, pos: Point) {
-    ecs.push(
-        (Item, AmuletOfRipd,
-            pos,
-            Render{
-                color: ColorPair::new(WHITE, BLACK),
-                glyph: to_cp437('|')
-            },
-            Name("Amulet of RIPD".to_string())
-        )
-    );
+    ecs.push((
+        Item,
+        AmuletOfRipd,
+        pos,
+        Render {
+            color: ColorPair::new(WHITE, BLACK),
+            glyph: to_cp437('|'),
+        },
+        Name("Amulet of RIPD".to_string()),
+    ));
 }

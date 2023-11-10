@@ -5,16 +5,10 @@ use crate::prelude::*;
 #[read_component(Point)]
 #[read_component(Player)]
 #[read_component(AmuletOfRipd)]
-pub fn end_turn(
-    ecs: &SubWorld,
-    #[resource] turn_state: &mut TurnState
-) {
+pub fn end_turn(ecs: &SubWorld, #[resource] turn_state: &mut TurnState) {
     let mut player_hp = <(&Health, &Point)>::query().filter(component::<Player>());
     let mut amulet = <&Point>::query().filter(component::<AmuletOfRipd>());
-    let amulet_pos = amulet
-    .iter(ecs)
-    .nth(0)
-    .unwrap();
+    let amulet_pos = amulet.iter(ecs).nth(0).unwrap();
 
     let current_state = turn_state.clone();
 
@@ -22,7 +16,7 @@ pub fn end_turn(
         TurnState::AwaitingInput => return,
         TurnState::PlayerTurn => TurnState::MonsterTurn,
         TurnState::MonsterTurn => TurnState::AwaitingInput,
-        _ => current_state
+        _ => current_state,
     };
 
     player_hp.iter(ecs).for_each(|(hp, pos)| {

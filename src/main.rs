@@ -42,7 +42,8 @@ impl State {
         let map_builder = MapBuilder::new(&mut rng);
         spawn_player(&mut ecs, map_builder.player_start);
         spawn_amulet_of_ripd(&mut ecs, map_builder.amulet_start);
-        map_builder.rooms
+        map_builder
+            .rooms
             .iter()
             .skip(1)
             .map(|r| r.center())
@@ -66,11 +67,12 @@ impl State {
         let map_builder = MapBuilder::new(&mut rng);
         spawn_player(&mut self.ecs, map_builder.player_start);
         spawn_amulet_of_ripd(&mut self.ecs, map_builder.amulet_start);
-        map_builder.rooms
-        .iter()
-        .skip(1)
-        .map(|r| r.center())
-        .for_each(|pos| spawn_monster(&mut self.ecs, &mut rng, pos));
+        map_builder
+            .rooms
+            .iter()
+            .skip(1)
+            .map(|r| r.center())
+            .for_each(|pos| spawn_monster(&mut self.ecs, &mut rng, pos));
         self.resources.insert(map_builder.map);
         self.resources.insert(Camera::new(map_builder.player_start));
         self.resources.insert(TurnState::AwaitingInput);
@@ -79,14 +81,25 @@ impl State {
     fn game_over(&mut self, ctx: &mut BTerm) {
         ctx.set_active_console(2);
         ctx.print_color_centered(2, RED, BLACK, "Your quest has ended.");
-        ctx.print_color_centered(4, WHITE, BLACK, 
-        "Slain by a monster, your hero's journey has come to a premature end.");
-        ctx.print_color_centered(5, WHITE, BLACK,
-        "The Amulet of RIPD remains unclaimed, and your home town is not saved.");
-        ctx.print_color_centered(8, YELLOW, BLACK,
-        "Don't worry, you can always try again with a new hero.");
-        ctx.print_color_centered(9, GREEN, BLACK,
-        "Press 1 to play again.");
+        ctx.print_color_centered(
+            4,
+            WHITE,
+            BLACK,
+            "Slain by a monster, your hero's journey has come to a premature end.",
+        );
+        ctx.print_color_centered(
+            5,
+            WHITE,
+            BLACK,
+            "The Amulet of RIPD remains unclaimed, and your home town is not saved.",
+        );
+        ctx.print_color_centered(
+            8,
+            YELLOW,
+            BLACK,
+            "Don't worry, you can always try again with a new hero.",
+        );
+        ctx.print_color_centered(9, GREEN, BLACK, "Press 1 to play again.");
 
         if let Some(VirtualKeyCode::Key1) = ctx.key {
             self.reset_game_state();
@@ -96,13 +109,21 @@ impl State {
     fn victory(&mut self, ctx: &mut BTerm) {
         ctx.set_active_console(2);
         ctx.print_color_centered(2, GREEN, BLACK, "You have won!");
-        ctx.print_color_centered(4, WHITE, BLACK,
-        "You put on the Amulet of RIPD and feel its power infuse your muscles \
-         and your veins pop!");
-        ctx.print_color_centered(5, WHITE, BLACK,
-        "You now have the strength needed to defeat every single machine at the gym.");
+        ctx.print_color_centered(
+            4,
+            WHITE,
+            BLACK,
+            "You put on the Amulet of RIPD and feel its power infuse your muscles \
+         and your veins pop!",
+        );
+        ctx.print_color_centered(
+            5,
+            WHITE,
+            BLACK,
+            "You now have the strength needed to defeat every single machine at the gym.",
+        );
         ctx.print_color_centered(7, GREEN, BLACK, "Press 1 to play again.");
-        
+
         if let Some(VirtualKeyCode::Key1) = ctx.key {
             self.reset_game_state();
             // TODO: Make pressing 1 continue the game if there are enemies left
@@ -124,24 +145,17 @@ impl GameState for State {
         self.resources.insert(Point::from_tuple(ctx.mouse_pos()));
         let current_state = self.resources.get::<TurnState>().unwrap().clone();
         match current_state {
-            TurnState::AwaitingInput => self.input_systems.execute(
-                &mut self.ecs,
-                &mut self.resources
-            ),
-            TurnState::PlayerTurn => self.player_systems.execute(
-                &mut self.ecs,
-                &mut self.resources
-            ),
-            TurnState::MonsterTurn => self.monster_systems.execute(
-                &mut self.ecs,
-                &mut self.resources
-            ),
-            TurnState::GameOver => {
-                self.game_over(ctx)
-            },
-            TurnState::Victory => {
-                self.victory(ctx)
-            },
+            TurnState::AwaitingInput => self
+                .input_systems
+                .execute(&mut self.ecs, &mut self.resources),
+            TurnState::PlayerTurn => self
+                .player_systems
+                .execute(&mut self.ecs, &mut self.resources),
+            TurnState::MonsterTurn => self
+                .monster_systems
+                .execute(&mut self.ecs, &mut self.resources),
+            TurnState::GameOver => self.game_over(ctx),
+            TurnState::Victory => self.victory(ctx),
         }
         render_draw_buffer(ctx).expect("Render error");
     }
@@ -158,7 +172,7 @@ fn main() -> BError {
         .with_font("terminal8x8.png", 8, 8)
         .with_simple_console(DISPLAY_WIDTH, DISPLAY_HEIGHT, "dungeonfont.png")
         .with_simple_console_no_bg(DISPLAY_WIDTH, DISPLAY_HEIGHT, "dungeonfont.png")
-        .with_simple_console_no_bg(SCREEN_WIDTH*2, SCREEN_HEIGHT*2, "terminal8x8.png")
+        .with_simple_console_no_bg(SCREEN_WIDTH * 2, SCREEN_HEIGHT * 2, "terminal8x8.png")
         .build()?;
 
     main_loop(context, State::new())
