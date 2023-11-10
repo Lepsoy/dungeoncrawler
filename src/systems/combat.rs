@@ -23,7 +23,7 @@ pub fn combat(
             .entry_ref(*victim)
             .unwrap()
             .get_component::<Player>()
-            .is_ok()
+            .is_ok();
 
             if let Ok(mut health) = ecs
                 .entry_mut(*victim)
