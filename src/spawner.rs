@@ -53,3 +53,16 @@ pub fn spawn_monster(
         )
     );
 }
+
+pub fn spawn_amulet_of_ripd(ecs: &mut World, pos: Point) {
+    ecs.push(
+        (Item, AmuletOfRipd,
+            pos,
+            Render{
+                color: ColorPair::new(WHITE, BLACK),
+                glyph: to_cp437('|')
+            },
+            Name("Amulet of RIPD".to_string())
+        )
+    );
+}
