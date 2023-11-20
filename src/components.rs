@@ -56,7 +56,7 @@ pub struct FieldOfView {
 
 impl FieldOfView {
     pub fn new(radius: i32) -> Self {
-        Self{
+        Self {
             visible_tiles: HashSet::new(),
             radius,
             is_dirty: true,
@@ -64,7 +64,7 @@ impl FieldOfView {
     }
 
     pub fn clone_dirty(&self) -> Self {
-        Self{
+        Self {
             visible_tiles: HashSet::new(),
             radius: self.radius,
             is_dirty: true,
