@@ -2,12 +2,10 @@ use crate::prelude::*;
 
 mod automata;
 mod drunkard;
-mod empty;
 mod rooms;
 
 use automata::CellularAutomataArchitect;
 use drunkard::DrunkardsWalkArchitect;
-use empty::EmptyArchitect;
 use rooms::RoomsArchitect;
 
 
