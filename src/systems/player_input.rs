@@ -85,20 +85,6 @@ pub fn player_input(
             }
         }
 
-        if !did_something {
-            if let Ok(mut health) = ecs
-                .entry_mut(player_entity)
-                .unwrap()
-                .get_component_mut::<Health>()
-            {
-                if health.inactivity < 5 {
-                    health.inactivity += 1;
-                } else {
-                    health.current = i32::min(health.max, health.current + 1);
-                    health.inactivity = 0;
-                }
-            }
-        }
         *turn_state = TurnState::PlayerTurn;
     }
 }
