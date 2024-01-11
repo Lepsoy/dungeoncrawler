@@ -1,1 +1,1 @@
-Dungeon crawler. Chapter 5 of Hands-on Rust
+Contains entire implementation of the Dungeon Crawler in Hands-on Rust by Herbert Wolverson
