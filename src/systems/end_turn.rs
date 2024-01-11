@@ -7,7 +7,7 @@ use crate::prelude::*;
 #[read_component(AmuletOfRipd)]
 pub fn end_turn(
     ecs: &SubWorld,
-    #[resource] turn_state: &mut TurnState
+    #[resource] turn_state: &mut TurnState,
     #[resource] map: &Map
 ) {
     let mut player_hp = <(&Health, &Point)>::query().filter(component::<Player>());
