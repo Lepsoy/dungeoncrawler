@@ -67,7 +67,7 @@ impl State {
         let mut rng = RandomNumberGenerator::new();
         let map_builder = MapBuilder::new(&mut rng);
         spawn_player(&mut self.ecs, map_builder.player_start);
-//        spawn_amulet_of_ripd(&mut self.ecs, map_builder.amulet_start);
+        //        spawn_amulet_of_ripd(&mut self.ecs, map_builder.amulet_start);
         map_builder
             .monster_spawns
             .iter()
@@ -146,7 +146,9 @@ impl State {
             .iter(&self.ecs)
             .filter(|(_e, carry)| carry.0 == player_entity)
             .map(|(e, _carry)| *e)
-            .for_each(|e| { entities_to_keep.insert(e); });
+            .for_each(|e| {
+                entities_to_keep.insert(e);
+            });
 
         let mut cb = CommandBuffer::new(&mut self.ecs);
         for e in Entity::query().iter(&self.ecs) {
@@ -171,8 +173,7 @@ impl State {
                 map_level = player.map_level;
                 pos.x = map_builder.player_start.x;
                 pos.y = map_builder.player_start.y;
-            }
-            );
+            });
 
         if map_level == 2 {
             spawn_amulet_of_ripd(&mut self.ecs, map_builder.amulet_start);
@@ -181,7 +182,8 @@ impl State {
             map_builder.map.tiles[exit_idx] = TileType::Exit;
         }
 
-        map_builder.monster_spawns
+        map_builder
+            .monster_spawns
             .iter()
             .for_each(|pos| spawn_entity(&mut self.ecs, &mut rng, *pos));
         self.resources.insert(map_builder.map);
