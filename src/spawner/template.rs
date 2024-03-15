@@ -15,6 +15,7 @@ pub struct Template {
     pub provides: Option<Vec<(String, i32)>>,
     pub hp: Option<i32>,
     pub base_damage: Option<i32>,
+    pub xp: Option<i32>,
 }
 
 #[derive(Clone, Deserialize, Debug, PartialEq)]
@@ -57,6 +58,7 @@ impl Templates {
                         max: template.hp.unwrap(),
                     },
                 );
+                commands.add_component(entity, YieldsXp { amount: template.xp.unwrap() });
             }
         }
 

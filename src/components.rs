@@ -10,6 +10,7 @@ pub struct Render {
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub struct Player {
     pub map_level: u32,
+    pub xp: i32,
 }
 
 #[derive(Clone, Copy, Debug, PartialEq)]
@@ -95,3 +96,7 @@ pub struct Damage(pub i32);
 
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub struct Weapon;
+
+pub struct YieldsXp {
+    pub amount: i32,
+}
